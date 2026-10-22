@@ -1,8 +1,8 @@
 # DiskPilot
 
-DiskPilot is a read-only Windows disk space analyzer built with Java 21, JavaFX, Maven, and JUnit 5.
+DiskPilot is a Windows disk space analyzer and conservative cleanup assistant built with Java 21, JavaFX, Maven, and JUnit 5.
 
-The current version scans a selected directory or drive, calculates aggregate directory sizes, reports the largest files and folders, and exposes available file timestamps. It does not delete, move, rename, or modify files.
+The application scans a selected directory or drive, calculates aggregate directory sizes, reports the largest files and folders, and exposes available file timestamps. It also provides a separate cleanup workflow for reviewable temporary-file/cache candidates and older installed applications.
 
 ## Requirements
 
@@ -22,4 +22,12 @@ The table shows the selected directory's direct children. Double-click a folder 
 
 The scanner does not follow symbolic links by default. Access failures, disappearing files, and other filesystem errors are reported as warnings and do not terminate the whole scan. Windows last-access times can be stale or unavailable.
 
-Protected system and application locations are marked in scan records and are reserved from any future cleanup workflow. The current application has no cleanup workflow.
+Protected system and sensitive application locations are excluded from cleanup candidates. The cleanup tab only suggests known temporary folders and selected cache locations; it does not infer that a file is safe to remove from age or size alone.
+
+## Cleanup safety
+
+- Select individual candidates and use **Move selected to Recycle Bin**. The application never permanently deletes files.
+- Files are rechecked immediately before the move, symbolic links are rejected, and protected locations can never become candidates.
+- Older installed applications are discovered from Windows uninstall registry entries. Double-clicking one starts its registered Windows uninstaller; DiskPilot does not uninstall applications itself.
+- Windows does not expose a reliable universal last-used timestamp for installed applications, so every recommendation requires user review.
+- Access errors, missing files, registry failures, and other filesystem errors are shown as warnings instead of terminating the scan.

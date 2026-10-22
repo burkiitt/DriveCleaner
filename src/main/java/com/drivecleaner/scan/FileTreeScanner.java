@@ -185,6 +185,7 @@ public final class FileTreeScanner {
                 largestFiles.offer(record);
             }
             if (fileCount % PROGRESS_FILE_INTERVAL == 0) {
+                lastProgressNanos = Long.MIN_VALUE;
                 publishProgress(file);
             }
         }

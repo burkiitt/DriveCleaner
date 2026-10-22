@@ -28,7 +28,8 @@ public final class ProtectionPolicy {
 
         String userHome = System.getProperty("user.home");
         if (userHome != null && !userHome.isBlank()) {
-            addIfPresent(locations, Path.of(userHome, "AppData").toString(), "Per-user application data");
+            addIfPresent(locations, Path.of(userHome, "AppData", "Roaming").toString(), "Per-user roaming application data");
+            addIfPresent(locations, Path.of(userHome, "AppData", "Local", "Packages").toString(), "Windows Store application data");
         }
         if (System.getProperty("os.name", "").toLowerCase(Locale.ROOT).contains("win")) {
             for (Path root : FileSystems.getDefault().getRootDirectories()) {
